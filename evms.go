@@ -8,6 +8,12 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
+const (
+	NormalSignHasherId     = 1
+	RawSignHasherId        = 2
+	GethPrefixSignHasherId = 3
+)
+
 func normalSignHasher(data []byte) []byte {
 	msg := fmt.Sprintf("\x19Ethereum Signed Message:\n%d%s", len(data), data)
 	return crypto.Keccak256([]byte(msg))
@@ -76,4 +82,8 @@ func VerifyMessage(addr, sig, msg string) (error, int) {
 	}
 
 	return fmt.Errorf("The Signature Message Verification Failed."), 0
+}
+
+func IsValidAddress(address string) bool {
+	return common.IsHexAddress(address)
 }
